@@ -8,7 +8,7 @@ made available by members of Community Organizations Active in Disaster.
 
 Fork the repository:
 
-[https://github.com/ybakos/cs362-coad-resources](https://github.com/ybakos/cs362-coad-resources)
+[https://github.com/beejjorgensen/cs362-coad-resources](https://github.com/beejjorgensen/cs362-coad-resources)
 
 And then clone it to your local development environment, eg:
 
@@ -21,8 +21,14 @@ This is a Rails application that uses SQLite in development and PostgreSQL in pr
 Install the dependencies:
 
 ```
-gem install bundler
+gem install bundler -v 2.4.22
 bundle install
+```
+
+Get the rails symlink set up so you can run it:
+
+```
+rbenv rehash
 ```
 
 Next, set up the database:
