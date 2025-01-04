@@ -31,6 +31,18 @@ Get the rails symlink set up so you can run it:
 rbenv rehash
 ```
 
+The Rails DB expects some environment variables to be set up in order to
+use. It will look for these in a `.env` file.
+
+Make a copy of the example `.env` file:
+
+```
+cp .env.example .env
+```
+
+The edit `.env` and change the values appropriately. (Don't worry about
+stuff from the ReCAPTCHA down.)
+
 Next, set up the database:
 
 ```
