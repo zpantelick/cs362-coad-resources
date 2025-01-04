@@ -40,7 +40,7 @@ Make a copy of the example `.env` file:
 cp .env.example .env
 ```
 
-The edit `.env` and change the values appropriately. (Don't worry about
+Then edit `.env` and change the values appropriately. (Don't worry about
 stuff from the ReCAPTCHA down.)
 
 Next, set up the database:
