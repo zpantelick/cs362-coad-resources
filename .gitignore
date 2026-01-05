@@ -38,3 +38,6 @@
 
 .ruby-gemset
 .ruby-version
+
+# OSX file system
+.DS_Store
