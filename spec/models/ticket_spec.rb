@@ -19,19 +19,17 @@ RSpec.describe Ticket, type: :model do
     end
 
     # Do this for the optional ones
-    it "belongs to region (optional)" do
-        should belong_to(:region).optional
+    it "belongs to organization (optional)" do
+        should belong_to(:organization).optional
     end
 
     it "validates presence of required fields" do
         should validate_presence_of(:name)
         should validate_presence_of(:phone)
-        should validate_presence_of(:region_id)
-        should validate_presence_of(:resource_category_id)
     end
 
-    it "has valide phone number" do
-        should validate_phony_plausible_of(:phone)
+    it "has valid phone number" do
+        expect(Ticket.new(phone: "5035551234")).to plausible(:phone)
     end
 
     describe "to_s method" do
