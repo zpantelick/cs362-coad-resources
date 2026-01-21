@@ -45,7 +45,7 @@ RSpec.describe Ticket, type: :model do
         let (:ticket) { Ticket.new(organization: nil)}
         let (:closed_ticket) { Ticket.new(closed: true) }
 
-        if "scopes open tickets" do
+        it "scopes open tickets" do
             expect(Ticket.open).to include(ticket)
         end
 
