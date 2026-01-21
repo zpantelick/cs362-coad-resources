@@ -19,7 +19,7 @@ RSpec.describe Ticket, type: :model do
     end
 
     # Do this for the optional ones
-    it "belongs to region" do
+    it "belongs to region (optional)" do
         should belong_to(:region).optional
     end
 
