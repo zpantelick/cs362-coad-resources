@@ -7,6 +7,8 @@ RSpec.describe Ticket, type: :model do
     end
 
     let (:ticket) { Ticket.new }
+    let (:region) { Region.create(name: 'Test Region') }
+    let (:resource_category) { ResourceCategory.create(name: 'Test Category') }
 
     it "responds to name" do
         expect(ticket).to respond_to(:name)
@@ -29,7 +31,13 @@ RSpec.describe Ticket, type: :model do
     end
 
     it "has valid phone number" do
-        expect(Ticket.new(phone: "5035551234")).to plausible(:phone)
+        ticket = Ticket.new(
+            name: 'Test Phone',
+            phone: '+15035551234',
+            region: region,
+            resource_category: resource_category
+        )
+        expect(ticket).to be_valid
     end
 
     describe "to_s method" do
@@ -40,11 +48,29 @@ RSpec.describe Ticket, type: :model do
     end
 
     describe "scope tests" do
-        let (:ticket) { Ticket.new(organization: nil)}
-        let (:closed_ticket) { Ticket.new(closed: true) }
+        let!(:open_ticket) do
+            Ticket.create!(
+                name: 'Test',
+                phone: '+15035551234',
+                region: region,
+                resource_category: resource_category,
+                organization: nil,
+                closed: false
+            )
+        end
+
+        let!(:closed_ticket) do
+            Ticket.create!(
+                name: 'Closed Test',
+                phone: '+15035551235',
+                region: region,
+                resource_category: resource_category,
+                closed: true
+            )
+        end
 
         it "scopes open tickets" do
-            expect(Ticket.open).to include(ticket)
+            expect(Ticket.open).to include(open_ticket)
         end
 
         it "scopes closed tickets" do
