@@ -27,4 +27,9 @@ RSpec.describe Region, type: :model do
         expect(result).to eq(name)
     end
 
+    it "unspecified method works" do
+        region = Region.unspecified
+        expect(region.name).to eq('Unspecified')
+    end
+
 end

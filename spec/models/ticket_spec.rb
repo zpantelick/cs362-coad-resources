@@ -78,4 +78,16 @@ RSpec.describe Ticket, type: :model do
         end
     end
 
+    describe "status methods" do
+        it "open? returns true for open tickets" do
+            ticket = Ticket.new(closed: false)
+            expect(ticket.open?).to be true
+        end
+
+        it "captured? returns true when organization is present" do
+            ticket = Ticket.new(organization: Organization.new)
+            expect(ticket.captured?).to be true
+        end
+    end
+
 end
