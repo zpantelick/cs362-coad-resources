@@ -1,3 +1,4 @@
+#used to create new resources?
 class ResourceCategory < ApplicationRecord
 
   has_and_belongs_to_many :organizations

@@ -1,3 +1,4 @@
+#ensures/sets up the regions data is entered and formatted correctly
 class Region < ApplicationRecord
 
   has_many :tickets

@@ -1,3 +1,4 @@
+#info for users and formatting user creation
 class User < ApplicationRecord
 
   enum role: [:admin, :organization]

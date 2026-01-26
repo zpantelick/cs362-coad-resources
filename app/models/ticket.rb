@@ -1,3 +1,4 @@
+#creates and properly formats tickets
 class Ticket < ApplicationRecord
 
   belongs_to :region
