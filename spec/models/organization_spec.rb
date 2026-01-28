@@ -39,4 +39,41 @@ RSpec.describe Organization, type: :model do
     expect(organization).to respond_to(:resource_categories)
   end
 
+  describe "validations" do
+    it "validates length of email" do
+      should validate_length_of(:email)
+        .is_at_least(1)
+        .is_at_most(255)
+        .on(:create)
+    end
+
+    it "validates uniqueness of email" do
+      should validate_uniqueness_of(:email)
+    end
+
+    it "validates length of name" do
+      should validate_length_of(:name)
+        .is_at_least(1)
+        .is_at_most(255)
+        .on(:create)
+    end
+
+    it "validates uniqueness of name" do
+      should validate_uniqueness_of(:name)
+    end
+
+    it "validates length of description" do
+      should validate_length_of(:description)
+        .is_at_most(1020)
+        .on(:create)
+    end
+  end
+
+  describe "to_s method" do 
+    let (:organization) { Organization.new(name: 'john doe') }
+    it "returns valid name" do
+      expect(organization.to_s).to eq('john doe')
+    end
+  end
+
 end
