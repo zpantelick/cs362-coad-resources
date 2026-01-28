@@ -15,6 +15,10 @@ RSpec.describe User, type: :model do
         expect(user).to respond_to(:password)
     end
 
+    it "has a role" do
+        expect(user).to respond_to(:role)
+    end
+    
     it "belongs to organization (optional)" do
         should belong_to(:organization).optional
     end
