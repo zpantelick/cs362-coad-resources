@@ -48,7 +48,7 @@ RSpec.describe Organization, type: :model do
     end
 
     it "validates uniqueness of email" do
-      should validate_uniqueness_of(:email)
+      should validate_uniqueness_of(:email).case_insensitive
     end
 
     it "validates length of name" do
@@ -59,7 +59,7 @@ RSpec.describe Organization, type: :model do
     end
 
     it "validates uniqueness of name" do
-      should validate_uniqueness_of(:name)
+      should validate_uniqueness_of(:name).case_insensitive
     end
 
     it "validates length of description" do
