@@ -19,8 +19,11 @@ RSpec.describe Region, type: :model do
           .on(:create)
     end
 
+    it "has many tickets" do
+        should have_many(:tickets)
+    end
 
-    it "has a string representation that is its name" do
+    it "has a string representation that of its name" do
         name = 'Mt. Hood'
         region = Region.new(name: name)
         result = region.to_s

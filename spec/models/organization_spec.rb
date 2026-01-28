@@ -36,7 +36,15 @@ RSpec.describe Organization, type: :model do
   end
 
   it 'has/belongs to a resource category' do
-    expect(organization).to respond_to(:resource_categories)
+    should has_and_belongs_to_many(:resource_categories)
+  end
+
+  it "has many users" do
+    should have_many(:users)
+  end
+
+  it "has many tickets" do
+    should have_many(:tickets)
   end
 
   describe "validations" do
