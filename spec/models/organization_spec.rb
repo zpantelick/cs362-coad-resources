@@ -84,4 +84,20 @@ RSpec.describe Organization, type: :model do
     end
   end
 
+  describe "Class Tests" do
+    let (:organization) { Organization.new() }
+
+    it "approve method works" do 
+			organization = Organization.new(:status => :rejected)
+			organization.approve()
+      	expect(organization.status.to_sym).to eq(:approved)
+		end
+
+    it "reject method works" do 
+			organization = Organization.new(:status => :approved)
+			organization.reject()
+      	expect(organization.status.to_sym).to eq(:rejected)
+		end
+  end
+
 end
