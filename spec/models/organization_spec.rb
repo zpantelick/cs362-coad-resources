@@ -4,36 +4,40 @@ RSpec.describe Organization, type: :model do
   it 'exists' do
     Organization.new
   end
+  describe "attribute tests" do
 
+    it 'has an email' do
+      expect(organization).to respond_to(:email)
+    end
+
+    it 'has a name' do
+      expect(organization).to respond_to(:name)
+    end
+
+    it 'has a phone' do
+      expect(organization).to respond_to(:phone)
+    end
+
+    it 'has status' do
+      expect(organization).to respond_to(:status)
+    end
+
+    it 'has a primary name' do
+      expect(organization).to respond_to(:primary_name)
+    end
+
+    it 'has a secondary name' do
+      expect(organization).to respond_to(:secondary_name)
+    end
+
+    it 'has a secondary phone' do
+      expect(organization).to respond_to(:secondary_phone)
+    end
+
+  end
   let (:organization) { Organization.new }
 
-  it 'has an email' do
-    expect(organization).to respond_to(:email)
-  end
-
-  it 'has a name' do
-    expect(organization).to respond_to(:name)
-  end
-
-  it 'has a phone' do
-    expect(organization).to respond_to(:phone)
-  end
-
-  it 'has status' do
-    expect(organization).to respond_to(:status)
-  end
-
-  it 'has a primary name' do
-    expect(organization).to respond_to(:primary_name)
-  end
-
-  it 'has a secondary name' do
-    expect(organization).to respond_to(:secondary_name)
-  end
-
-  it 'has a secondary phone' do
-    expect(organization).to respond_to(:secondary_phone)
-  end
+  
 
   it 'has/belongs to a resource category' do
     should have_and_belong_to_many(:resource_categories)
