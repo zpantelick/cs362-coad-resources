@@ -1,0 +1,15 @@
+FactoryBot.define do
+
+    sequence :email do |n|
+        "fakeuser{n}@fakedomain{n}.com"
+    end
+
+    sequence :phone do |n|
+        "+1-555-" + ("%04d" % n)
+    end
+
+    sequence :name do |n|
+        "fakename_#{n}"
+    end
+
+end
