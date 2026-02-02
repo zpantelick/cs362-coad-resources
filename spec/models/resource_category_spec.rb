@@ -71,4 +71,27 @@ let(:resourceCat) { ResourceCategory.new(name: "TEST", active: true) }
 		end
 	end
 
+	describe "scope tests" do
+		let!(:active_resource) do
+			ResourceCategory.create!(
+				name: 'Active Test',
+				active: true
+			)
+		end
+
+		let!(:inactive_resource) do
+			ResourceCategory.create!(
+				name: 'Inactive Test',
+				active: false
+			)
+		end
+
+		it "scopes active resource categories" do
+			expect(ResourceCategory.active).to include(active_resource)
+		end
+
+		it "scopes inactive resource categories" do
+			expect(ResourceCategory.inactive).to include(inactive_resource)
+		end
+	end
 end
