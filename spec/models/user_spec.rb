@@ -1,22 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-    it "exists" do
-        User.new
+
+    setup do
+        @userBuild = build(:user, :email => "example@example.com")
     end
 
-    let (:user) { User.new }
+    it "exists" do
+        @userBuild
+    end
+
+    # let (:user) { User.new }
 
     it "has an email" do
-        expect(user).to respond_to(:email)
+        expect(@userBuild).to respond_to(:email)
     end
 
     it "has a password" do
-        expect(user).to respond_to(:password)
+        expect(@userBuild).to respond_to(:password)
     end
 
     it "has a role" do
-        expect(user).to respond_to(:role)
+        expect(@userBuild).to respond_to(:role)
     end
     
     it "belongs to organization (optional)" do
@@ -52,9 +57,9 @@ RSpec.describe User, type: :model do
     end
 
     describe "to_s method" do
-        let (:user) { User.new(email: 'rando@gmail.com') }
+        # let (:user) { User.new(email: 'rando@gmail.com') }
         it "returns valid email" do
-            expect(user.to_s).to eq('rando@gmail.com')
+            expect(@userBuild.to_s).to eq('example@example.com')
         end
     end
 end
