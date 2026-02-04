@@ -2,20 +2,23 @@ require 'rails_helper'
 
 RSpec.describe ResourceCategory, type: :model do
 
-let(:resourceCat) { ResourceCategory.new(name: "TEST", active: true) }
+setup do
+	@resourceCatBuild = build(:resource_category, :name => "TEST")
+end
 
   	describe "Class tests" do # Class & Method testing
+
 		it "exists" do
-		ResourceCategory.new
+			@resourceCatBuild
 		end
 
 		it "has a string representation that is its name" do
-		result = resourceCat.to_s
-		expect(result).to eq("TEST")
+			result = @resourceCatBuild.to_s
+			expect(result).to eq("TEST")
 		end
 
 		it "has a way to check active status" do
-		expect(resourceCat).to respond_to(:inactive?)
+			expect(@resourceCatBuild).to respond_to(:inactive?)
 		end
 
 		it "unspecified method works" do
@@ -24,26 +27,28 @@ let(:resourceCat) { ResourceCategory.new(name: "TEST", active: true) }
 		end
 
 		it "active method works" do 
-			resourceCat = ResourceCategory.new(:active => false)
-			resourceCat.activate()
-      		expect(resourceCat.inactive?).to be_falsey()
+			resource = FactoryBot.build(:resource_category, active: false)
+			expect(resource.inactive?).to be_truthy()
+			resource.activate
+			expect(resource.inactive?).to be_falsey()
 		end
 
 		it "deactivate method works" do 
-			resourceCat = ResourceCategory.new(:active => true)
-			resourceCat.deactivate()
-      		expect(resourceCat.inactive?).to be_truthy()
+			resource = FactoryBot.build(:resource_category, :active => true)
+			expect(resource.inactive?).to be_falsey()
+			resource.deactivate()
+      		expect(resource.inactive?).to be_truthy()
 		end
 
   	end
 
   	describe "Schema Attribute Testing" do # Attribute Testing
 		it "has a name" do
-			expect(resourceCat).to respond_to(:name)
+			expect(@resourceCatBuild).to respond_to(:name)
 		end
 
 		it "has a status" do
-			expect(resourceCat).to respond_to(:active)
+			expect(@resourceCatBuild).to respond_to(:active)
 		end
   	end
 
