@@ -12,4 +12,12 @@ require 'rails_helper'
 # end
 RSpec.describe DashboardHelper, type: :helper do
 
+    setup do
+        @user = build(:user)  # will need an organization id for other tests - refer to /spec/factories/user.rb
+    end
+
+    it "Returns the creation application for users with no organization" do  # I dont know if this is right because Im not sure if its a redirect
+        @user.organization = nil
+        expect(helper.dashboard_for(@user)).to eq('create_application_dashboard')
+    end
 end
