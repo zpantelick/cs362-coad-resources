@@ -14,22 +14,28 @@ RSpec.describe DashboardHelper, type: :helper do
 
     setup do
         @user = build(:user)  # will need an organization id for other tests - refer to /spec/factories/user.rb
-        @admin = build(:user)
     end
 
-    it "Returns the creation application for users with no organization" do  # I dont know if this is right because Im not sure if its a redirect
+    it "Returns the creation application for users with no organization" do
         @user.organization = nil
         expect(helper.dashboard_for(@user)).to eq('create_application_dashboard')
     end
 
-    it "User is admin" do
-        @admin.role = 'admin'
-        expect(helper.dashboard_for(@admin)).to eq('admin_dashboard')
+    it "Returns admin dashboard when user is admin" do
+        @user.role = 'admin'
+        expect(helper.dashboard_for(@user)).to eq('admin_dashboard')
     end
 
-    it "User organization is submitted" do
-        @user.organization.approve 
-        expect(helper.dashboard_for(@user)).to eq('submitted_dashboard')
+    it "Returns organization submitted dashboard when organization is submitted" do
+        org = create(:organization, status: :submitted)
+        @user.organization = org
+        expect(helper.dashboard_for(@user)).to eq('organization_submitted_dashboard')
+    end
+
+    it "Returns organization approved dashboard when organization is approved" do
+        org = create(:organization, status: :approved)
+        @user.organization = org
+        expect(helper.dashboard_for(@user)).to eq('organization_approved_dashboard')
     end
 
 end
