@@ -1,7 +1,7 @@
 FactoryBot.define do
 
     sequence :email do |n|
-        "fakeuser{n}@fakedomain{n}.com"
+        "fakeuser#{n}@fakedomain.com"
     end
 
     sequence :phone do |n|
