@@ -1,11 +1,11 @@
 FactoryBot.define do
     factory :organization do
-        name { "Test Organization" }
-        email { "org@example.com" }
-        phone { "555-1234" }
-        primary_name { "John Doe" }
-        secondary_name { "Jane Doe" }
-        secondary_phone { "555-5678" }
+        name { generate( :name ) }
+        email { generate( :email ) }
+        phone { generate( :phone ) }
+        primary_name { :name }
+        secondary_name { generate( :name )}
+        secondary_phone { generate( :phone ) }
         status { :submitted } 
     end
 end
