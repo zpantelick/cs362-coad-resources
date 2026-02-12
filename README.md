@@ -1,7 +1,9 @@
 # COAD Project by Alec, Brook, and Zander
+<div align="center">
+  <img width="614.5" height="1268" alt="diagram-export-2-4-2026-12_54_18-PM" src="https://github.com/user-attachments/assets/7d77c46c-fde8-4d77-9b8c-6f86808858db" />
+  <h5>Created with Eraser.io UML Creator</h5>
+<div/>
 
-<img width="1229" height="2536" alt="diagram-export-2-4-2026-12_54_18-PM" src="https://github.com/user-attachments/assets/7d77c46c-fde8-4d77-9b8c-6f86808858db" />
-Created with Eraser.io UML Creator
 
 # Central Oregon COAD
 
@@ -136,4 +138,5 @@ Recaptcha
 
 
 &copy; 2020 James Martinez, Ryder McDowell. All rights reserved.
+
 
