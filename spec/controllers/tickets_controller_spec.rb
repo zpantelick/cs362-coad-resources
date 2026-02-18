@@ -50,4 +50,48 @@ RSpec.describe TicketsController, type: :controller do
             }.not_to change(Ticket, :count)
         end
     end
+
+    describe "show method" do
+        let(:ticket) { create(:ticket) }
+
+        it "returns redirect to dashboard if not authenticated" do
+            sign_in create(:user)
+            get :show, params: { id: ticket.id }
+            expect(response).to redirect_to(dashboard_path)
+        end
+
+        it "finds ticket if authenticated" do
+            sign_in create(:user, :admin)
+            get :show, params: { id: ticket.id }
+            expect(controller.instance_variable_get(:@ticket)).to eq(ticket)
+        end
+    end
+
+    describe "capture method" do
+        let(:ticket) { create(:ticket) }
+
+        it "returns redirect to dashboard if not authenticated" do
+            sign_in create(:user)
+            post :capture, params: { id: ticket.id }
+            expect(response).to redirect_to(dashboard_path)
+        end
+
+        it "captures ticket if authenticated and valid ticket" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, organization: organization)
+            sign_in user
+            post :capture, params: { id: ticket.id }
+            expect(response).to redirect_to(dashboard_path + '#tickets:open')
+            expect(ticket.reload.organization_id).to eq(organization.id)
+        end
+
+        it "does not capture ticket if authenticated but invalid ticket" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, organization: organization)
+            ticket_already_captured = create(:ticket, organization: organization)
+            sign_in user
+            post :capture, params: { id: ticket_already_captured.id }
+            expect(response).to have_http_status(200)
+        end
+    end
 end
