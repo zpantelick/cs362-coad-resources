@@ -94,4 +94,94 @@ RSpec.describe TicketsController, type: :controller do
             expect(response).to have_http_status(200)
         end
     end
+
+    describe "release method" do
+        it "goes to dashboard if not authenticated" do
+            sign_in create(:user)
+            post :release, params: { id: create(:ticket).id }
+            expect(response).to redirect_to(dashboard_path)
+        end
+
+        it "releases ticket if authenticated and valid ticket" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, organization: organization)
+            ticket = create(:ticket, organization: organization)
+            sign_in user
+            post :release, params: { id: ticket.id }
+            expect(response).to redirect_to(dashboard_path + '#tickets:organization')
+            expect(ticket.reload.organization_id).to be_nil
+        end
+
+        it "releases ticket if authenticated and valid ticket for admin" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, :admin, organization: organization)
+            ticket = create(:ticket, organization: organization)
+            sign_in user
+            post :release, params: { id: ticket.id }
+            expect(response).to redirect_to(dashboard_path + '#tickets:captured')
+            expect(ticket.reload.organization_id).to be_nil
+        end
+
+        it "ticket release not ok" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, organization: organization)
+            other_org = create(:organization, status: :submitted)
+            ticket = create(:ticket, organization: other_org)
+            sign_in user
+            post :release, params: { id: ticket.id }
+            expect(response).to have_http_status(200)
+            expect(ticket.reload.organization_id).to eq(other_org.id)
+        end
+    end
+
+    describe "close method" do
+        it "goes to dashboard if not authenticated" do
+            sign_in create(:user)
+            post :close, params: { id: create(:ticket).id }
+            expect(response).to redirect_to(dashboard_path)
+        end
+
+        it "redirects to #tickets:open if admin and close successful" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, :admin, organization: organization)
+            ticket = create(:ticket, organization: organization)
+            sign_in user
+            post :close, params: { id: ticket.id }
+            expect(response).to redirect_to(dashboard_path + '#tickets:open')
+        end
+
+        it "redirects to #tickets:organization if not admin and close successful" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, organization: organization)
+            ticket = create(:ticket, organization: organization)
+            sign_in user
+            post :close, params: { id: ticket.id }
+            expect(response).to redirect_to(dashboard_path + '#tickets:organization')
+        end
+
+        it "renders show if close not successful" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, organization: organization)
+            other_org = create(:organization, status: :submitted)
+            ticket = create(:ticket, organization: other_org)
+            sign_in user
+            post :close, params: { id: ticket.id }
+            expect(response).to have_http_status(200)
+            expect(ticket.reload.closed).to be false
+        end
+    end
+
+    describe "destroy method" do
+        it "destroys the ticket" do
+            organization = create(:organization, status: :approved)
+            user = create(:user, :admin, organization: organization)
+            ticket = create(:ticket, organization: organization)
+            sign_in user
+            expect {
+                delete :destroy, params: { id: ticket.id }
+            }.to change(Ticket, :count).by(-1)
+            expect(response).to redirect_to(dashboard_path + '#tickets')
+            expect(flash[:notice]).to eq("Ticket #{ticket.id} was deleted.")
+        end
+    end
 end
