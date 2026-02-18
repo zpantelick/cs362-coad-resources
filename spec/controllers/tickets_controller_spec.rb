@@ -49,6 +49,24 @@ RSpec.describe TicketsController, type: :controller do
                 post :create, params: { ticket: invalid_params }
             }.not_to change(Ticket, :count)
         end
+
+        it "permits only allowed parameters" do
+          controller.params = ActionController::Parameters.new(
+            ticket: {
+              name: "Test Ticket",
+              phone: "+15035551234",
+              description: "Test",
+              region_id: 1,
+              resource_category_id: 1,
+              admin: true
+            }
+          )
+
+          permitted = controller.send(:ticket_params)
+
+          expect(permitted.permitted?).to be true
+          expect(permitted.keys).to contain_exactly("name", "phone", "description", "region_id", "resource_category_id")
+        end
     end
 
     describe "show method" do
