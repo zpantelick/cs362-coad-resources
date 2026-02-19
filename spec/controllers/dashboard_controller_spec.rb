@@ -53,6 +53,14 @@ RSpec.describe DashboardController, type: :controller do
         end
     end
 
+    describe "after sign in path for resource" do
+        let(:user) { create(:user) }
+
+        it "redirects to dashboard after sign in" do
+            expect(controller.after_sign_in_path_for(user)).to eq(dashboard_path)
+        end
+    end
+
     describe "tickets method" do
         let(:organization) { create(:organization, status: :approved) }
         let(:user) { create(:user, organization: organization) }
