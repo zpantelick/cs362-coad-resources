@@ -18,8 +18,9 @@ RSpec.describe UserMailer, type: :mailer do
         allow(Rails).to receive(:env).and_return(ActiveSupport::StringInquirer.new("development")) # stupid mock to simulate development environment
       end
 
-      it "does not send mail" do
-        expect { UserMailer.with(to: test_email, new_organization: new_org).new_organization_application }.not_to change { ActionMailer::Base.deliveries.count }
+      it "returns false" do
+        result = UserMailer.with(to: test_email, new_organization: new_org).new_organization_application
+        expect(result.message).to be_a(ActionMailer::Base::NullMail)
       end
     end
   end
