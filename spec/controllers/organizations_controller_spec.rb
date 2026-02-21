@@ -26,8 +26,40 @@ RSpec.describe OrganizationsController, type: :controller do
   describe "GET #new" do
     before { get :new }
 
-    it "creates new organization" do
-      expect(controller.instance_variable_get(:@organizations)).to be_a_new(Organization)
+    it "makes new organization" do
+      expect(controller.instance_variable_get(:@organization)).to be_a_new(Organization)
+    end
+  end
+
+  describe "POST #create" do
+    let(:valid_params) { { organization: attributes_for(:organization) } }
+
+    before do
+      allow(controller).to receive(:verify_approved).and_return(true)
+
+      # Stub the mailer to prevent actual email delivery
+      mailer = double('mailer')
+      allow(UserMailer).to receive(:with).and_return(mailer)
+      allow(mailer).to receive(:new_organization_application).and_return(mailer)
+      allow(mailer).to receive(:deliver_now)
+    end
+
+    context "with valid parameters" do
+      it "creates a new orginization with submitted status" do
+        post :create, params: valid_params
+        expect(Organization.last.status).to eq("submitted")
+      end
+
+      it "associates organization with current user" do
+        post :create, params: valid_params
+        expect(user.reload.organization).to eq(Organization.last)
+      end
+
+      it "redirects to path" do
+        post :create, params: valid_params
+        expect(response).to redirect_to(organization_application_submitted_path)
+      end
+
     end
   end
       
