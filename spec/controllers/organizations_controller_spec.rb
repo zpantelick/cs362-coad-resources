@@ -2,7 +2,9 @@ require 'rails_helper'
 
 RSpec.describe OrganizationsController, type: :controller do
   let(:user) { create(:user) }
+  let(:admin) { create(:user, role: :admin) }
   let(:organization) { create(:organization) }
+  
   
   before do
     allow(controller).to receive(:authenticate_user!).and_return(true)
@@ -44,24 +46,37 @@ RSpec.describe OrganizationsController, type: :controller do
       allow(mailer).to receive(:deliver_now)
     end
 
-    context "with valid parameters" do
-      it "creates a new orginization with submitted status" do
-        post :create, params: valid_params
-        expect(Organization.last.status).to eq("submitted")
-      end
+    it "creates a new orginization with submitted status" do
+      post :create, params: valid_params
+      expect(Organization.last.status).to eq("submitted")
+    end
 
-      it "associates organization with current user" do
-        post :create, params: valid_params
-        expect(user.reload.organization).to eq(Organization.last)
-      end
+    it "associates organization with current user" do
+      post :create, params: valid_params
+      expect(user.reload.organization).to eq(Organization.last)
+    end
 
-      it "redirects to path" do
-        post :create, params: valid_params
-        expect(response).to redirect_to(organization_application_submitted_path)
-      end
-
+    it "redirects to path" do
+      post :create, params: valid_params
+      expect(response).to redirect_to(organization_application_submitted_path)
     end
   end
-      
 
+  describe "POST #approve" do
+    before { sign_in admin }
+
+    it "approves orginization" do
+      post :approve, params: { id: organization.id }
+      expect(organization.reload.status).to eq("approved")
+    end
+  end
+
+  describe "POST #reject" do
+    before { sign_in admin }
+
+    it "rejects organization" do
+      post :reject, params: { id: organization.id, organization: { rejection_reason: "Test reason" } }
+      expect(organization.reload.status).to eq("rejected")
+    end
+  end
 end
