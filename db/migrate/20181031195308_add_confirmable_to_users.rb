@@ -9,7 +9,9 @@ class AddConfirmableToUsers < ActiveRecord::Migration[5.2]
     # User.reset_column_information # Need for some types of updates, but not for update_all.
     # To avoid a short time window between running the migration and updating all existing
     # users as confirmed, do the following
-    User.update_all confirmed_at: DateTime.now
+    # Use execute instead of User.update_all to avoid loading the User model
+    # which would fail in Rails 7.1 because the role column doesn't exist yet
+    execute("UPDATE users SET confirmed_at = datetime('now')")
     # All existing user accounts should be able to log in after this.
   end
 

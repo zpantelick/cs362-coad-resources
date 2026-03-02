@@ -8,6 +8,9 @@ Rails.application.config.assets.version = '1.0'
 # Add Yarn node_modules folder to the asset load path.
 Rails.application.config.assets.paths << Rails.root.join('node_modules')
 
+# Note: CoffeeScript files have been converted to JavaScript.
+# The .coffee files are kept for reference but .js files take precedence.
+
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in the app/assets
 # folder are already added.
